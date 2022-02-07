@@ -32,11 +32,17 @@ const Post = (props) => {
             )}
           </Grid>
         </Grid>
-        <Grid padding="16px">
-          <Text>{props.contents}</Text>
-        </Grid>
-        <Grid>
-          <Image shape="rectangle" src={props.image_url} />
+        <Grid
+          _onClick={() => {
+            history.push(`/post/${props.id}`);
+          }}
+        >
+          <Grid padding="16px">
+            <Text>{props.contents}</Text>
+          </Grid>
+          <Grid>
+            <Image shape="rectangle" src={props.image_url} />
+          </Grid>
         </Grid>
         <Grid padding="16px">
           <Text margin="0px" bold>

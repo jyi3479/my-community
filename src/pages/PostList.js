@@ -29,23 +29,13 @@ const PostList = (props) => {
         // 로그인을 했고, 포스트를 작성한 유저와 로그인 중인 유저가 같을 때 is_me는 true
         if (user_info && p.user_info.user_id === user_info.uid) {
           return (
-            <Grid
-              _onClick={() => {
-                history.push(`/post/${p.id}`);
-              }}
-              key={p.id}
-            >
-              <Post {...p} is_me />
+            <Grid key={p.id}>
+              <Post {...p} key={p.id} is_me />
             </Grid>
           );
         }
         return (
-          <Grid
-            _onClick={() => {
-              history.push(`/post/${p.id}`);
-            }}
-            key={p.id}
-          >
+          <Grid key={p.id}>
             <Post {...p} />
           </Grid>
         );
