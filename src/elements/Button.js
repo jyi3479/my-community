@@ -3,9 +3,20 @@ import styled from "styled-components";
 // import { Text, Grid } from "./index";
 
 const Button = (props) => {
-  const { text, _onClick, is_float, children, margin, width, bg } = props;
+  const {
+    text,
+    _onClick,
+    is_float,
+    children,
+    margin,
+    width,
+    bg,
+    is_active,
+    padding,
+  } = props;
   const styles = {
     margin: margin,
+    padding: padding,
     width: width,
     bg: bg,
   };
@@ -19,7 +30,7 @@ const Button = (props) => {
   }
   return (
     <React.Fragment>
-      <ElButton {...styles} onClick={_onClick}>
+      <ElButton {...styles} onClick={_onClick} disabled={is_active}>
         {text ? text : children}
       </ElButton>
     </React.Fragment>
@@ -34,13 +45,15 @@ Button.defaultProps = {
   margin: false,
   width: "100%",
   bg: "#212121",
+  padding: "12px 0px",
+  is_active: false,
 };
 
 const ElButton = styled.button`
   width: ${(props) => props.width};
   ${(props) => (props.bg ? `background-color: ${props.bg};` : "")};
   color: #ffffff;
-  padding: 12px 0px;
+  padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")};

@@ -8,10 +8,15 @@ import { actionCreators as imageActions } from "./image";
 // actions
 const SET_POST = "SET_POST";
 const ADD_POST = "ADD_POST";
+const EDIT_POST = "EDIT_POST";
 
 // action creators
 const setPost = createAction(SET_POST, (post_list) => ({ post_list }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const editPost = createAction(EDIT_POST, (post_id, post) => ({
+  post_id,
+  post,
+}));
 
 // initialState (reducer가 사용할 initialstate)
 const initialState = {
@@ -52,7 +57,7 @@ const addPostFB = (contents = "") => {
     const _image = getState().image.preview;
     console.log(_image);
     console.log(typeof _image);
-    // 1. 파이어베이스 storage에 문자열로 업로드 하기 : data url string일 경우
+    // 2. 파이어베이스 storage에 문자열로 업로드 하기 : data url string일 경우
     const _upload = storage
       .ref(`images/${user_info.user_id}_${new Date().getTime()}`)
       .putString(_image, "data_url");
@@ -69,7 +74,7 @@ const addPostFB = (contents = "") => {
           postDB
             .add({ ...user_info, ..._post, image_url: url }) // firestore에 넣기
             .then((doc) => {
-              let post = { user_info, ..._post, id: doc.id, image_url: url }; // addPost 함수(리덕스에 저장)에 넣기 위해 + 리덕스 데이터 형식 맞추기
+              let post = { ...user_info, ..._post, id: doc.id, image_url: url }; // addPost 함수(리덕스에 저장)에 넣기 위해 + 리덕스 데이터 형식 맞추기
               dispatch(addPost(post));
               history.replace("/");
 
@@ -85,6 +90,64 @@ const addPostFB = (contents = "") => {
           console.log("이미지 업로드에 문제가 있어요!", err);
         });
     });
+  };
+};
+
+const editPostFB = (post_id = null, post = {}) => {
+  return function (dispatch, getState, { history }) {
+    if (!post_id) {
+      console.log("게시물 정보가 없어요!");
+      return;
+    }
+
+    const _image = getState().image.preview;
+
+    const _post_idx = getState().post.list.findIndex((p) => p.id === post_id);
+    const _post = getState().post.list[_post_idx]; // 수정하려는 게시글 가져오기
+
+    console.log(_post);
+
+    const postDB = firestore.collection("myPost");
+
+    if (_image === _post.image_url) {
+      // 이미지 수정 없을 때 (firestore 데이터만 업데이트 해주면 된다.)
+      postDB
+        .doc(post_id)
+        .update(post)
+        .then((doc) => {
+          dispatch(editPost(post_id, { ...post }));
+          history.replace("/");
+        });
+      return;
+    } else {
+      // 이미지 수정 있을 때 (+ 새로운 이미지 storage 업로드)
+      const user_id = getState().user.user.uid;
+      const _upload = storage
+        .ref(`images/${user_id}_${new Date().getTime()}`)
+        .putString(_image, "data_url");
+
+      _upload.then((snapshot) => {
+        snapshot.ref
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+            return url;
+          })
+          .then((url) => {
+            postDB
+              .doc(post_id)
+              .update({ ...post, image_url: url })
+              .then((doc) => {
+                dispatch(editPost(post_id, { ...post, image_url: url }));
+                history.replace("/");
+              });
+          })
+          .catch((err) => {
+            window.alert("앗! 이미지 업로드에 문제가 있어요!");
+            console.log("이미지 업로드에 문제가 있어요!", err);
+          });
+      });
+    }
   };
 };
 
@@ -151,6 +214,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list.unshift(action.payload.post); // 앞에 추가하기
       }),
+    [EDIT_POST]: (state, action) =>
+      produce(state, (draft) => {
+        let idx = draft.list.findIndex((p) => p.id === action.payload.post_id);
+        draft.list[idx] = { ...draft.list[idx], ...action.payload.post };
+      }),
   },
   initialState
 );
@@ -161,6 +229,7 @@ const actionCreators = {
   addPost,
   getPostFB,
   addPostFB,
+  editPostFB,
 };
 
 export { actionCreators };

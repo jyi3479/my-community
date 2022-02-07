@@ -1,13 +1,17 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { history } from "../redux/configureStore";
 
 import { Post } from "../components";
 import { actionCreators as postActions } from "../redux/modules/post";
+import { Grid } from "../elements";
 
 const PostList = (props) => {
   const post_list = useSelector((state) => state.post.list);
+  const user_info = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   console.log(post_list);
+  console.log(user_info);
 
   // 처음 컴포넌트가 생겼을 때(두번째 인자 빈배열 [])만 데이터를 불러오면 되니까, useEffect
   React.useEffect(() => {
@@ -22,7 +26,29 @@ const PostList = (props) => {
     <React.Fragment>
       {/* <Post /> */}
       {post_list.map((p, idx) => {
-        return <Post key={p.id} {...p} />;
+        // 로그인을 했고, 포스트를 작성한 유저와 로그인 중인 유저가 같을 때 is_me는 true
+        if (user_info && p.user_info.user_id === user_info.uid) {
+          return (
+            <Grid
+              _onClick={() => {
+                history.push(`/post/${p.id}`);
+              }}
+              key={p.id}
+            >
+              <Post {...p} is_me />
+            </Grid>
+          );
+        }
+        return (
+          <Grid
+            _onClick={() => {
+              history.push(`/post/${p.id}`);
+            }}
+            key={p.id}
+          >
+            <Post {...p} />
+          </Grid>
+        );
       })}
     </React.Fragment>
   );

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button } from "../elements";
 import { storage } from "./firebase";
 import { actionCreators as imageActions } from "../redux/modules/image";
+import styled from "styled-components";
 
 const Upload = (props) => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const Upload = (props) => {
     };
   };
 
-  // 파이어베이스 storage에 파일 업로드 하기
+  // 파이어베이스 storage에 파일객체로 업로드 하기
   const uploadFB = () => {
     let image = fileInput.current.files[0];
     dispatch(imageActions.uploadImageFB(image));
@@ -38,15 +39,26 @@ const Upload = (props) => {
   return (
     <React.Fragment>
       {/* disabled 속성 주면 파일선택 버튼 안눌린다. */}
+      {/* <InputLabel for="input-file">파일 찾기</InputLabel> */}
       <input
         type="file"
+        id="input-file"
+        // style={{ display: "none" }}
         onChange={selectFile}
         ref={fileInput}
         disabled={is_uploading}
       />
-      <Button _onClick={uploadFB}>업로드하기</Button>
+      {/* <Button _onClick={uploadFB}>업로드하기</Button>  */}
     </React.Fragment>
   );
 };
+
+// const InputLabel = styled.label`
+//   padding: 6px 25px;
+//   background-color: #ff6600;
+//   border-radius: 4px;
+//   color: white;
+//   cursor: pointer;
+// `;
 
 export default Upload;
