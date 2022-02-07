@@ -3,7 +3,8 @@ import React from "react";
 // import Image from "../elements/Image";
 // import Text from "../elements/Text";
 // 한번에 import 하기 (elements 폴더에 index.js 파일에서 모두 import 했기 때문)
-import { Grid, Image, Text } from "../elements";
+import { Button, Grid, Image, Text } from "../elements";
+import { history } from "../redux/configureStore";
 
 const Post = (props) => {
   return (
@@ -13,15 +14,27 @@ const Post = (props) => {
           <Image shape="circle" src={props.src} />
           <Text bold>{props.user_info.user_name}</Text>
           <Text>{props.insert_dt}</Text>
+          <Button
+            width="50px"
+            margin="0px 2px 0px 2px"
+            bg="grey"
+            _onClick={() => {
+              history.push("/notification");
+            }}
+          >
+            수정
+          </Button>
         </Grid>
         <Grid padding="16px">
           <Text>{props.contents}</Text>
         </Grid>
         <Grid>
-          <Image shape="rectangle" src={props.src} />
+          <Image shape="rectangle" src={props.image_url} />
         </Grid>
         <Grid padding="16px">
-          <Text bold>댓글 {props.comment_cnt}개</Text>
+          <Text margin="0px" bold>
+            댓글 {props.comment_cnt}개
+          </Text>
         </Grid>
       </Grid>
     </React.Fragment>
