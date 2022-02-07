@@ -5,13 +5,14 @@ import { history } from "../redux/configureStore";
 import { Post } from "../components";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { Grid } from "../elements";
+import InfinityScroll from "../shared/InfinityScroll";
 
 const PostList = (props) => {
+  const dispatch = useDispatch();
   const post_list = useSelector((state) => state.post.list);
   const user_info = useSelector((state) => state.user.user);
-  const dispatch = useDispatch();
-  console.log(post_list);
-  console.log(user_info);
+  const is_loading = useSelector((state) => state.post.is_loading);
+  const paging = useSelector((state) => state.post.paging);
 
   // 처음 컴포넌트가 생겼을 때(두번째 인자 빈배열 [])만 데이터를 불러오면 되니까, useEffect
   React.useEffect(() => {
@@ -24,22 +25,30 @@ const PostList = (props) => {
 
   return (
     <React.Fragment>
-      {/* <Post /> */}
-      {post_list.map((p, idx) => {
-        // 로그인을 했고, 포스트를 작성한 유저와 로그인 중인 유저가 같을 때 is_me는 true
-        if (user_info && p.user_info.user_id === user_info.uid) {
+      <InfinityScroll
+        callNext={() => {
+          console.log("next!");
+          dispatch(postActions.getPostFB(paging.next)); // 3개끊고 4번째 목록이 start로 들어간다.
+        }}
+        is_next={paging.next ? true : false}
+        loading={is_loading}
+      >
+        {post_list.map((p, idx) => {
+          // 로그인을 했고, 포스트를 작성한 유저와 로그인 중인 유저가 같을 때 is_me는 true
+          if (user_info && p.user_info.user_id === user_info.uid) {
+            return (
+              <Grid key={p.id}>
+                <Post key={p.id} {...p} is_me />
+              </Grid>
+            );
+          }
           return (
             <Grid key={p.id}>
-              <Post {...p} key={p.id} is_me />
+              <Post {...p} />
             </Grid>
           );
-        }
-        return (
-          <Grid key={p.id}>
-            <Post {...p} />
-          </Grid>
-        );
-      })}
+        })}
+      </InfinityScroll>
     </React.Fragment>
   );
 };

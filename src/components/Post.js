@@ -5,8 +5,13 @@ import React from "react";
 // 한번에 import 하기 (elements 폴더에 index.js 파일에서 모두 import 했기 때문)
 import { Button, Grid, Image, Text } from "../elements";
 import { history } from "../redux/configureStore";
-
+import { useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 const Post = (props) => {
+  const dispatch = useDispatch();
+  // const deletePost = () => {
+  //   dispatch();
+  // };
   return (
     <React.Fragment>
       <Grid>
@@ -28,6 +33,20 @@ const Post = (props) => {
                 }}
               >
                 수정
+              </Button>
+            )}
+            {props.is_me && (
+              <Button
+                width="auto"
+                padding="5px"
+                margin="4px"
+                bg="red"
+                _onClick={() => {
+                  console.log("삭제!");
+                  dispatch(postActions.deletePostFB(props.id, props));
+                }}
+              >
+                삭제
               </Button>
             )}
           </Grid>
