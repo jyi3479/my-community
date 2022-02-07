@@ -16,9 +16,9 @@ const PostList = (props) => {
 
   // 처음 컴포넌트가 생겼을 때(두번째 인자 빈배열 [])만 데이터를 불러오면 되니까, useEffect
   React.useEffect(() => {
-    // 이미 포스트가 있는 상태에서는 새로 불러오는 것(getPostFB)을 안하도록 하기 - firestore 데이터는 최신 순으로 배치 설정 안했기 때문에
-    // 포스트 작성하면 바로 위에 추가되도록 하기 위해서 (이미 있던 리덕스 데이터에 최신 글이 앞에 추가 됨 unshift)
-    if (post_list.length === 0) {
+    // 상세페이지에서 메인 이동시 데이터가 하나있을 때가 있으니,
+    // 가지고 있는 데이터가 0개(메인에서 그냥 새로고침시), 1개일 때만 새로 데이터 호출로 변경
+    if (post_list.length < 2) {
       dispatch(postActions.getPostFB());
     }
   }, []);

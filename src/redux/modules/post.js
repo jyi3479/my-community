@@ -236,6 +236,37 @@ const getPostFB = (start = null, size = 3) => {
   };
 };
 
+// 게시글 하나 정보 가져오는 함수 만들기 (상세페이지를 위해)
+const getOnePostFB = (id) => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection("myPost");
+    postDB
+      .doc(id)
+      .get()
+      .then((doc) => {
+        let _post = doc.data();
+
+        if (!_post) {
+          return;
+        }
+        // 키값들만 배열로 만들어서 reduce 돌리기
+        let post = Object.keys(_post).reduce(
+          (acc, cur) => {
+            if (cur.indexOf("user_") !== -1) {
+              return {
+                ...acc,
+                user_info: { ...acc.user_info, [cur]: _post[cur] },
+              };
+            }
+            return { ...acc, [cur]: _post[cur] };
+          },
+          { id: doc.id, user_info: {} }
+        );
+        dispatch(setPost([post]));
+      });
+  };
+};
+
 const deletePostFB = (post_id = null) => {
   return function (dispatch, getState, { history }) {
     if (!post_id) {
@@ -289,10 +320,23 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list.push(...action.payload.post_list);
 
+        // post_id가 같은 중복 항목을 제거한다.
+        draft.list = draft.list.reduce((acc, cur) => {
+          // findIndex로 누산값(cur)에 현재값이 이미 들어있나 확인하기.
+          // 없으면 넣어주기
+          if (acc.findIndex((a) => a.id === cur.id) === -1) {
+            return [...acc, cur];
+          } else {
+            //있으면 덮어쓰기
+            acc[acc.findIndex((a) => a.id === cur.id)] = cur;
+            return acc;
+          }
+        }, []);
+
+        // paging이 있을 때만 넣기
         if (action.payload.paging) {
           draft.paging = action.payload.paging;
         }
-
         draft.is_loading = false;
       }),
 
@@ -325,11 +369,13 @@ export default handleActions(
 const actionCreators = {
   setPost,
   addPost,
+  editPost,
   getPostFB,
   addPostFB,
   editPostFB,
   deletePost,
   deletePostFB,
+  getOnePostFB,
 };
 
 export { actionCreators };

@@ -1,66 +1,41 @@
 import React from "react";
 import { CommentList, CommentWrite, Post } from "../components";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as postActions } from "../redux/modules/post";
 
-import { firestore } from "../shared/firebase";
+import Permit from "../shared/Permit";
 
 const PostDetail = (props) => {
   // 리덕스에서 클릭한 게시물 정보 가져오기
+  const dispatch = useDispatch();
   const id = props.match.params.id;
 
   const user_info = useSelector((state) => state.user.user);
 
-  // 리덕스에서 가져오기 때문에 새로고침하면 데이터가 없음 (PostList에서만 firestore에서 가져오고 있음)
-  // const post_list = useSelector((state) => state.post.list);
-
-  //  따라서 파이어스토어에서 데이터를 가져오자.
   const post_list = useSelector((store) => store.post.list);
 
   const post_idx = post_list.findIndex((p) => p.id === id);
-  const post_data = post_list[post_idx];
-
-  // 상세페이지 자체에서 컴포넌트 set을 관리하자.
-  const [post, setPost] = React.useState(post_data ? post_data : null);
+  const post = post_list[post_idx];
 
   React.useEffect(() => {
     if (post) {
       return;
     }
-
-    const postDB = firestore.collection("myPost");
-    postDB
-      .doc(id)
-      .get()
-      .then((doc) => {
-        console.log(doc);
-        console.log(doc.data());
-
-        let _post = doc.data();
-        let post = Object.keys(_post).reduce(
-          (acc, cur) => {
-            if (cur.indexOf("user_") !== -1) {
-              return {
-                ...acc,
-                user_info: { ...acc.user_info, [cur]: _post[cur] },
-              };
-            }
-            return { ...acc, [cur]: _post[cur] };
-          },
-          { id: doc.id, user_info: {} }
-        );
-
-        setPost(post);
-      });
+    // post 정보 없으면 리덕스에서 firestore에 특정 게시물 불러오는 함수 dispatch
+    // 리덕스에서 불러오면 리듀서에서 store에 저장할 것임. -> 그럼 위에 post_list에 데이터 들어감
+    dispatch(postActions.getOnePostFB(id));
   }, []);
 
   return (
     <React.Fragment>
       {post && (
-        <Post {...post} is_me={post.user_info.user_id === user_info.uid} />
+        <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />
       )}
-      <CommentWrite />
-      <CommentList />
+      <Permit>
+        <CommentWrite post_id={id} />
+      </Permit>
+      <CommentList post_id={id} />
     </React.Fragment>
   );
 };
