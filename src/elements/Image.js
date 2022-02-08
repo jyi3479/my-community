@@ -40,6 +40,7 @@ const ImageDefault = styled.div`
 
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  background-position: center;
 `;
 
 //반응형 네모를 만들자.
@@ -54,6 +55,7 @@ const AspectInner = styled.div`
   overflow: hidden; //넓이보다 넘치면 숨기기
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  background-position: center;
 `;
 
 const ImageCircle = styled.div`
@@ -64,6 +66,7 @@ const ImageCircle = styled.div`
 
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  background-position: center;
   margin: 4px;
 `;
 

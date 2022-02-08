@@ -10,16 +10,16 @@ const Login = (props) => {
   const dispatch = useDispatch();
   const [id, setId] = React.useState("");
   const [pwd, setPwd] = React.useState("");
-  let is_full;
+  const [is_full, setFull] = React.useState(false);
 
   const login = () => {
     // 이메일, 패스워드 미기입 시 로그인 버튼 활성화 막기
     if (id === "" || pwd === "") {
-      is_full = true;
+      setFull(true);
       // window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요:)");
       return;
     } else {
-      is_full = false;
+      setFull(false);
     }
 
     // 이메일 형식 체크
@@ -44,6 +44,9 @@ const Login = (props) => {
             _onChange={(e) => {
               setId(e.target.value);
             }}
+            value={id}
+            onSubmit={login}
+            is_submit
           />
         </Grid>
         <Grid padding="16px 0px">
@@ -54,6 +57,9 @@ const Login = (props) => {
             _onChange={(e) => {
               setPwd(e.target.value);
             }}
+            value={pwd}
+            onSubmit={login}
+            is_submit
           />
         </Grid>
         <Button

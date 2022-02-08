@@ -5,6 +5,7 @@ import "moment";
 import moment from "moment";
 
 import { actionCreators as imageActions } from "./image";
+import { CenterFocusStrong } from "@material-ui/icons";
 
 // actions
 const SET_POST = "SET_POST";
@@ -48,6 +49,7 @@ const initialPost = {
   contents: "라이언!!",
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD kk:mm:ss"),
+  align: "center",
 };
 
 // middleware

@@ -40,7 +40,7 @@ const Post = (props) => {
                 width="auto"
                 padding="5px"
                 margin="4px"
-                bg="red"
+                bg="#eb8738"
                 _onClick={() => {
                   console.log("삭제!");
                   dispatch(postActions.deletePostFB(props.id, props));

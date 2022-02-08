@@ -44,7 +44,7 @@ Button.defaultProps = {
   is_float: false,
   margin: false,
   width: "100%",
-  bg: "#212121",
+  bg: "#61b165",
   padding: "12px 0px",
   is_active: false,
 };
@@ -56,6 +56,7 @@ const ElButton = styled.button`
   padding: ${(props) => props.padding};
   box-sizing: border-box;
   border: none;
+  border-radius: 5px;
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")};
   cursor: pointer;
 `;

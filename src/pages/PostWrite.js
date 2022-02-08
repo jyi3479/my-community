@@ -5,6 +5,7 @@ import Upload from "../shared/Upload";
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
 import { actionCreators as imageActions } from "../redux/modules/image";
+import { Layout } from "../components";
 
 const PostWrite = (props) => {
   const dispatch = useDispatch();
@@ -78,18 +79,21 @@ const PostWrite = (props) => {
       </Grid>
       <Grid>
         <Grid padding="16px">
-          <Text margine="0px" size="24px" bold>
+          <Grid>
+            <Layout />
+          </Grid>
+          {/* <Text margine="0px" size="24px" bold>
             미리보기
-          </Text>
+          </Text> */}
         </Grid>
-        <Image
+        {/* <Image
           shape="rectangle"
           src={
             preview
               ? preview
               : "https://usagi-post.com/wp-content/uploads/2020/05/no-image-found-360x250-1.png"
           }
-        />
+        /> */}
       </Grid>
       <Grid padding="16px">
         <Input

@@ -2,8 +2,17 @@ import React from "react";
 import styled from "styled-components";
 
 const Grid = (props) => {
-  const { is_flex, width, margin, padding, bg, children, center, _onClick } =
-    props;
+  const {
+    is_flex,
+    width,
+    margin,
+    padding,
+    bg,
+    children,
+    center,
+    _onClick,
+    align,
+  } = props;
   //props에 스타일 속성이 아닌 children이 있기 때문에, 스타일 속성들만 따로 넣어줌.
   const styles = {
     is_flex: is_flex,
@@ -12,6 +21,7 @@ const Grid = (props) => {
     padding: padding,
     bg: bg,
     center: center,
+    align: align,
   };
   return (
     <React.Fragment>
@@ -30,6 +40,7 @@ Grid.defaultProps = {
   margin: false,
   bg: false,
   center: false,
+  align: null,
   _onClick: () => {},
 };
 
@@ -45,7 +56,10 @@ ${(props) =>
       ? `display: flex; align-items: center; justify-content: space-between; `
       : ""}
 
-${(props) => (props.center ? `text-align: center` : "")}
+${(props) => (props.center ? `text-align: center;` : "")}
+
+${(props) => (props.align === "left" ? `margin-right: auto;` : "")}
+${(props) => (props.align === "right" ? `margin-left: auto;` : "")}
 `;
 
 export default Grid;
