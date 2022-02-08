@@ -3,7 +3,8 @@ import React from "react";
 // import Image from "../elements/Image";
 // import Text from "../elements/Text";
 // 한번에 import 하기 (elements 폴더에 index.js 파일에서 모두 import 했기 때문)
-import { Button, Grid, Image, Text } from "../elements";
+import { Button, Grid, Image, PostLayout, Text } from "../elements";
+import { Layout } from ".";
 import { history } from "../redux/configureStore";
 import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
@@ -56,11 +57,12 @@ const Post = (props) => {
             history.push(`/post/${props.id}`);
           }}
         >
-          <Grid padding="16px">
-            <Text>{props.contents}</Text>
-          </Grid>
           <Grid>
-            <Image shape="rectangle" src={props.image_url} />
+            <PostLayout
+              align={props.align}
+              img_url={props.image_url}
+              contents={props.contents}
+            />
           </Grid>
         </Grid>
         <Grid padding="16px">

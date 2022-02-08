@@ -7,17 +7,20 @@ import { storage } from "../../shared/firebase";
 const UPLOADING = "UPLOADING"; // 이미지 업로드 중인지 확인하는 액션
 const UPLOAD_IMAGE = "UPLOAD_IMAGE"; // 업로드한 이미지의 URL을 저장하는 액션
 const SET_PREVIEW = "SET_PREVIEW"; // 미리보기 정보 가져오는 액션
+const SET_ALIGN = "SET_ALIGN"; // 이미지 레이아웃 정보 가져오는 액션
 
 // action creators
 const uploading = createAction(UPLOADING, (uploading) => ({ uploading }));
 const uploadImage = createAction(UPLOAD_IMAGE, (image_url) => ({ image_url }));
 const setPreview = createAction(SET_PREVIEW, (preview) => ({ preview }));
+const setAlign = createAction(SET_ALIGN, (align) => ({ align }));
 
 // initialState
 const initialState = {
   image_url: "",
   uploading: false,
   preview: null,
+  align: null,
 };
 
 // middleware
@@ -59,6 +62,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.preview = action.payload.preview;
       }),
+    [SET_ALIGN]: (state, action) =>
+      produce(state, (draft) => {
+        draft.align = action.payload.align;
+      }),
   },
   initialState
 );
@@ -67,6 +74,7 @@ const actionCreators = {
   uploadImage,
   uploadImageFB,
   setPreview,
+  setAlign,
 };
 
 export { actionCreators };

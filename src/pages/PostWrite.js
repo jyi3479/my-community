@@ -11,6 +11,8 @@ const PostWrite = (props) => {
   const dispatch = useDispatch();
   //이미 App.js에서 세션이 있는지 확인했으니, is_login만 확인하면 된다.
   const is_login = useSelector((state) => state.user.is_login);
+
+  const align = useSelector((state) => state.image.align);
   const preview = useSelector((state) => state.image.preview);
   const post_list = useSelector((state) => state.post.list);
 
@@ -21,6 +23,7 @@ const PostWrite = (props) => {
   let _post = is_edit ? post_list.find((p) => p.id === post_id) : null;
 
   const [contents, setContents] = React.useState(_post ? _post.contents : "");
+  const [is_full, setFull] = React.useState(false);
 
   const { history } = props;
 
@@ -43,11 +46,28 @@ const PostWrite = (props) => {
   };
 
   const addPost = () => {
+    if (!contents || !preview) {
+      setFull(true);
+      // window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요:)");
+      return;
+    } else {
+      setFull(false);
+    }
+    console.log(is_full);
     dispatch(postActions.addPostFB(contents));
   };
 
   const editPost = () => {
-    dispatch(postActions.editPostFB(post_id, { contents: contents }));
+    if (contents === "" || preview === "") {
+      setFull(true);
+      // window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요:)");
+      return;
+    } else {
+      setFull(false);
+    }
+    dispatch(
+      postActions.editPostFB(post_id, { contents: contents, align: align })
+    );
   };
 
   if (!is_login) {
@@ -80,6 +100,7 @@ const PostWrite = (props) => {
       <Grid>
         <Grid padding="16px">
           <Grid>
+            {" "}
             <Layout />
           </Grid>
           {/* <Text margine="0px" size="24px" bold>

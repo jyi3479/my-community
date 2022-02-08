@@ -57,6 +57,7 @@ const addPostFB = (contents = "") => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection("myPost");
     const _user = getState().user.user; // state에 있는 user 정보 가져오기
+    const align = getState().image.align;
     const user_info = {
       user_name: _user.user_name,
       user_id: _user.uid,
@@ -66,6 +67,7 @@ const addPostFB = (contents = "") => {
       ...initialPost,
       contents: contents,
       insert_dt: moment().format("YYYY-MM-DD kk:mm:ss"),
+      align: align,
     };
 
     const _image = getState().image.preview;

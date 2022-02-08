@@ -1,21 +1,27 @@
 import React from "react";
 import { Grid, Image, Text } from "../elements";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { actionCreators as imageActions } from "../redux/modules/image";
 
 const Layout = (props) => {
+  const dispatch = useDispatch();
   const preview = useSelector((state) => state.image.preview);
-  const [checkedInputs, setCheckedInputs] = React.useState([]);
+
+  const [checkedInputs, setCheckedInputs] = React.useState(null);
 
   const changeHandler = (checked, id) => {
     if (checked) {
-      setCheckedInputs([...checkedInputs, id]);
+      setCheckedInputs(id);
     } else {
-      // 체크 해제
-      setCheckedInputs(checkedInputs.filter((el) => el !== id));
+      setCheckedInputs(null);
     }
-    console.log(checkedInputs);
   };
+
+  // useEffect를 꼭 사용해야할까..
+  React.useEffect(() => {
+    dispatch(imageActions.setAlign(checkedInputs));
+  }, [checkedInputs]);
 
   return (
     <Grid>
@@ -27,7 +33,7 @@ const Layout = (props) => {
           onChange={(e) => {
             changeHandler(e.currentTarget.checked, "right");
           }}
-          checked={checkedInputs.includes("right") ? true : false}
+          checked={checkedInputs === "right" ? true : false}
         ></input>
 
         <Grid is_flex>
@@ -54,7 +60,7 @@ const Layout = (props) => {
           onChange={(e) => {
             changeHandler(e.currentTarget.checked, "left");
           }}
-          checked={checkedInputs.includes("left") ? true : false}
+          checked={checkedInputs === "left" ? true : false}
         ></input>
 
         <Grid is_flex>
@@ -72,6 +78,7 @@ const Layout = (props) => {
           <div style={{ marginLeft: "auto" }}>텍스트</div>
         </Grid>
       </Grid>
+
       <Grid>
         <label htmlFor="center"> 이미지 하단 텍스트 상단 </label>
         <input
@@ -80,7 +87,7 @@ const Layout = (props) => {
           onChange={(e) => {
             changeHandler(e.currentTarget.checked, "center");
           }}
-          checked={checkedInputs.includes("center") ? true : false}
+          checked={checkedInputs === "center" ? true : false}
         ></input>
 
         <Grid>
@@ -100,5 +107,7 @@ const Layout = (props) => {
     </Grid>
   );
 };
+
+Layout.defaultProps = { preview: null };
 
 export default Layout;
