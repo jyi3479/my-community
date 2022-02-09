@@ -2,6 +2,10 @@ import React from "react";
 import { Grid, Text, Button } from "../elements";
 import { getCookie, deleteCookie } from "../shared/Cookie";
 
+// import LogoutIcon from "@material-ui/icons/Logout";
+import { Badge } from "@material-ui/core";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 import { useSelector, useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
@@ -36,21 +40,19 @@ const Header = (props) => {
             </Text>
           </Grid>
 
-          <Grid is_flex>
-            <Button margin="0 5px">내정보</Button>
+          {/* <Button margin="0 5px">내정보</Button> */}
+          <Grid is_flex width="auto">
             <NotiBadge
               _onClick={() => {
                 history.push("/noti");
               }}
             />
-            <Button
-              margin="0 5px"
-              _onClick={() => {
+
+            <LogoutIcon
+              onClick={() => {
                 dispatch(userActions.logoutFB());
               }}
-            >
-              로그아웃
-            </Button>
+            />
           </Grid>
         </Grid>
       </React.Fragment>

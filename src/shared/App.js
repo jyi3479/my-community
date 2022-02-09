@@ -18,6 +18,7 @@ import Header from "../components/Header";
 import { Grid, Button } from "../elements";
 import Permit from "./Permit";
 import Search from "./Search";
+import Test from "./Test";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";

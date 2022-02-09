@@ -6,7 +6,8 @@ import { actionCreators as imageActions } from "../redux/modules/image";
 
 const Layout = (props) => {
   const dispatch = useDispatch();
-  const preview = useSelector((state) => state.image.preview);
+  // const preview = useSelector((state) => state.image.preview);
+  const { preview } = props;
 
   const [checkedInputs, setCheckedInputs] = React.useState(null);
 
@@ -59,6 +60,7 @@ const Layout = (props) => {
           id="left"
           onChange={(e) => {
             changeHandler(e.currentTarget.checked, "left");
+            console.log(e.currentTarget.checked);
           }}
           checked={checkedInputs === "left" ? true : false}
         ></input>

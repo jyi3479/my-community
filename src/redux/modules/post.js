@@ -64,35 +64,21 @@ const likeFB = (post_id, user_id, is_like) => {
     const post = getState().post.list.find((l) => l.id === post_id);
     const likeDB = realtime.ref(`like/${post_id}/${user_id}`);
     console.log(is_like);
-    if (!is_like) {
-      // 좋아요 누른 경우 (false 이었다가 누른거니까)
-      const increment = firebase.firestore.FieldValue.increment(1);
-      postDB
-        .doc(post_id)
-        .update({ like_cnt: increment })
-        .then((_post) => {
-          if (post) {
-            dispatch(
-              editPost(post_id, { like_cnt: parseInt(post.like_cnt) + 1 })
-            );
-            likeDB.update({ is_click: true });
-          }
-        });
-    } else {
-      // 좋아요 취소
-      const increment = firebase.firestore.FieldValue.increment(-1);
-      postDB
-        .doc(post_id)
-        .update({ like_cnt: increment })
-        .then((_post) => {
-          if (post) {
-            dispatch(
-              editPost(post_id, { like_cnt: parseInt(post.like_cnt) - 1 })
-            );
-            likeDB.update({ is_click: false });
-          }
-        });
-    }
+    // 좋아요 누른 경우 (false 이었다가 누른거니까)
+    const increment = firebase.firestore.FieldValue.increment(is_like ? -1 : 1);
+    postDB
+      .doc(post_id)
+      .update({ like_cnt: increment })
+      .then((_post) => {
+        if (post) {
+          dispatch(
+            editPost(post_id, {
+              like_cnt: parseInt(post.like_cnt) + (is_like ? -1 : 1),
+            })
+          );
+          likeDB.update({ is_click: is_like ? false : true });
+        }
+      });
   };
 };
 

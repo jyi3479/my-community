@@ -5,6 +5,7 @@ import React from "react";
 // 한번에 import 하기 (elements 폴더에 index.js 파일에서 모두 import 했기 때문)
 import { Button, Grid, Image, Like, PostLayout, Text } from "../elements";
 import { Layout } from ".";
+import Permit from "../shared/Permit";
 import { history } from "../redux/configureStore";
 import { useDispatch } from "react-redux";
 import { actionCreators as postActions } from "../redux/modules/post";
@@ -69,7 +70,9 @@ const Post = (props) => {
           <Text margin="0px" bold>
             댓글 {props.comment_cnt}개 좋아요 {props.like_cnt}개
           </Text>
-          <Like post_id={props.id} />
+          <Permit>
+            <Like post_id={props.id} />
+          </Permit>
         </Grid>
       </Grid>
     </React.Fragment>

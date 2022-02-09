@@ -46,8 +46,9 @@ const PostWrite = (props) => {
   };
 
   const addPost = () => {
-    if (!contents || !preview) {
+    if (contents === "" || preview === null) {
       setFull(true);
+
       // window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요:)");
       return;
     } else {
@@ -58,13 +59,6 @@ const PostWrite = (props) => {
   };
 
   const editPost = () => {
-    if (contents === "" || preview === "") {
-      setFull(true);
-      // window.alert("아이디 혹은 비밀번호가 공란입니다! 입력해주세요:)");
-      return;
-    } else {
-      setFull(false);
-    }
     dispatch(
       postActions.editPostFB(post_id, { contents: contents, align: align })
     );
@@ -100,8 +94,7 @@ const PostWrite = (props) => {
       <Grid>
         <Grid padding="16px">
           <Grid>
-            {" "}
-            <Layout />
+            <Layout preview={preview} />
           </Grid>
           {/* <Text margine="0px" size="24px" bold>
             미리보기
@@ -127,9 +120,19 @@ const PostWrite = (props) => {
       </Grid>
       <Grid>
         {is_edit ? (
-          <Button _onClick={editPost}>게시글 수정</Button>
+          <Button
+            _onClick={editPost}
+            is_active={contents && preview ? false : true}
+          >
+            게시글 수정
+          </Button>
         ) : (
-          <Button _onClick={addPost}>게시글 작성</Button>
+          <Button
+            _onClick={addPost}
+            is_active={contents && preview ? false : true}
+          >
+            게시글 작성
+          </Button>
         )}
       </Grid>
     </React.Fragment>
