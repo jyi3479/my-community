@@ -16,7 +16,7 @@ const Post = (props) => {
   // };
   return (
     <React.Fragment>
-      <Grid>
+      <Grid border="1px solid #d7d7d7" padding="15px" margin="15px 0px">
         <Grid is_flex padding="16px">
           <Grid is_flex width="auto">
             <Image shape="circle" src={props.src} />
@@ -29,7 +29,7 @@ const Post = (props) => {
                 width="auto"
                 padding="5px"
                 margin="4px"
-                bg="grey"
+                bg="#7bc688"
                 _onClick={() => {
                   history.push(`/write/${props.id}`);
                 }}
@@ -67,8 +67,8 @@ const Post = (props) => {
           </Grid>
         </Grid>
         <Grid padding="16px" is_flex>
-          <Text margin="0px" bold>
-            댓글 {props.comment_cnt}개 좋아요 {props.like_cnt}개
+          <Text margin="0px" bold color="#66696d">
+            댓글 {props.comment_cnt}개 &nbsp; &nbsp; 좋아요 {props.like_cnt}개
           </Text>
           <Permit>
             <Like post_id={props.id} />

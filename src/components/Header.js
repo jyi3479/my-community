@@ -29,7 +29,7 @@ const Header = (props) => {
   if (is_login && is_session) {
     return (
       <React.Fragment>
-        <Grid padding="4px 16px" is_flex>
+        <Grid padding="5px 16px 50px 16px" is_flex>
           <Grid
             _onClick={() => {
               history.push("/");
@@ -42,16 +42,19 @@ const Header = (props) => {
 
           {/* <Button margin="0 5px">내정보</Button> */}
           <Grid is_flex width="auto">
-            <NotiBadge
-              _onClick={() => {
-                history.push("/noti");
-              }}
-            />
+            <Grid margin="0px 7px">
+              <NotiBadge
+                _onClick={() => {
+                  history.push("/noti");
+                }}
+              />
+            </Grid>
 
             <LogoutIcon
               onClick={() => {
                 dispatch(userActions.logoutFB());
               }}
+              color="action"
             />
           </Grid>
         </Grid>
@@ -61,16 +64,23 @@ const Header = (props) => {
 
   return (
     <React.Fragment>
-      <Grid padding="4px 16px" is_flex>
-        <Grid>
+      <Grid padding="5px 16px 70px 16px" is_flex>
+        <Grid
+          _onClick={() => {
+            history.push("/");
+          }}
+        >
           <Text margin="0px" size="24px" bold>
             Hello
           </Text>
         </Grid>
 
-        <Grid is_flex>
+        <Grid is_flex width="auto">
           <Button
-            margin="0 5px"
+            width="60px"
+            padding="7px"
+            bg="#61b165"
+            margin="0px 10px 0px 0px"
             _onClick={() => {
               history.push("/login");
             }}
@@ -78,7 +88,9 @@ const Header = (props) => {
             로그인
           </Button>
           <Button
-            margin="0 5px"
+            width="70px"
+            padding="7px"
+            bg="#92969a"
             _onClick={() => {
               history.push("/signup");
             }}

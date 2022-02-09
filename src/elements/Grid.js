@@ -12,6 +12,7 @@ const Grid = (props) => {
     center,
     _onClick,
     align,
+    border,
   } = props;
   //props에 스타일 속성이 아닌 children이 있기 때문에, 스타일 속성들만 따로 넣어줌.
   const styles = {
@@ -22,6 +23,7 @@ const Grid = (props) => {
     bg: bg,
     center: center,
     align: align,
+    border: border,
   };
   return (
     <React.Fragment>
@@ -38,6 +40,7 @@ Grid.defaultProps = {
   width: "100%",
   padding: false,
   margin: false,
+  border: null,
   bg: false,
   center: false,
   align: null,
@@ -48,6 +51,8 @@ const GridBox = styled.div`
   width: ${(props) => props.width};
   height: 100%;
   box-sizing: border-box; //박스사이즈에 테두리, 패딩 등도 포함하겠다.
+  border-radius: 10px;
+  ${(props) => (props.border ? `border: ${props.border};` : "")}
   ${(props) => (props.padding ? `padding: ${props.padding};` : "")}
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
 ${(props) => (props.bg ? `background-color: ${props.bg};` : "")}

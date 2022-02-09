@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { realtime } from "../shared/firebase";
 import { actionCreators as postActions } from "../redux/modules/post";
 
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 const Like = (props) => {
   const { post_id } = props;
   const dispatch = useDispatch();
@@ -27,12 +30,10 @@ const Like = (props) => {
 
   return (
     <React.Fragment>
-      <button
+      <FavoriteIcon
         onClick={likeCheck}
-        style={{ backgroundColor: is_like ? "red" : "blue" }}
-      >
-        좋아요
-      </button>
+        style={{ color: is_like ? "pink" : "grey" }}
+      />
     </React.Fragment>
   );
 };

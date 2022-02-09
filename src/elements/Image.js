@@ -34,13 +34,13 @@ Image.defaultProps = {
 };
 
 const ImageDefault = styled.div`
-  --size: ${(props) => props.size}px; // --size라는 변수 만들기
+  --size: ${(props) => props.size}; // --size라는 변수 만들기
   width: var(--size);
   height: var(--size);
 
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  background-position: center;
+  background-position: center center;
 `;
 
 //반응형 네모를 만들자.
@@ -51,7 +51,7 @@ const AspectOuter = styled.div`
 
 const AspectInner = styled.div`
   position: relative;
-  padding-top: 75%; // 넓이의 4:3
+  padding-top: 100%;
   overflow: hidden; //넓이보다 넘치면 숨기기
   background-image: url("${(props) => props.src}");
   background-size: cover;

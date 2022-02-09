@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge } from "@material-ui/core";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 
 import { realtime } from "../shared/firebase";
 import { useSelector } from "react-redux";

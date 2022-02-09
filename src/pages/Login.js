@@ -58,7 +58,7 @@ const Login = (props) => {
             console.log("로그인 했어!");
             login();
           }}
-          is_active={id && pwd ? false : true}
+          is_active={id && pwd ? false : true} // 하나라도 input에 value가 없으면 버튼 비활성화
         ></Button>
       </Grid>
     </React.Fragment>

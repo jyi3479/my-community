@@ -26,11 +26,11 @@ const PostLayout = (props) => {
   if (align === "right") {
     return (
       <Grid is_flex>
-        <Grid padding="16px" margin="0px 0px 0px auto">
-          <Text>{contents}</Text>
+        <Grid padding="16px" center>
+          <Text size="16px">{contents}</Text>
         </Grid>
-        <Grid align={align} width="auto">
-          <Image shape="square" size={500} src={img_url} />
+        <Grid align={align} padding="16px">
+          <Image shape="square" size="40vw" src={img_url} />
         </Grid>
       </Grid>
     );
@@ -39,11 +39,11 @@ const PostLayout = (props) => {
   if (align === "left") {
     return (
       <Grid is_flex>
-        <Grid align={align} width="auto">
-          <Image shape="square" size={500} src={img_url} />
+        <Grid align={align} padding="16px">
+          <Image shape="square" size="40vw" src={img_url} />
         </Grid>
-        <Grid padding="16px" margin="0px auto 0px 0px">
-          <Text>{contents}</Text>
+        <Grid padding="16px" center>
+          <Text size="16px">{contents}</Text>
         </Grid>
       </Grid>
     );
@@ -51,11 +51,11 @@ const PostLayout = (props) => {
 
   return (
     <Grid>
-      <Grid padding="16px">
-        <Text>{contents}</Text>
-      </Grid>
-      <Grid>
+      <Grid padding="16px" width="60vw" margin="auto">
         <Image shape="rectangle" src={img_url} />
+      </Grid>
+      <Grid padding="16px">
+        <Text size="16px">{contents}</Text>
       </Grid>
     </Grid>
   );

@@ -18,7 +18,6 @@ import Header from "../components/Header";
 import { Grid, Button } from "../elements";
 import Permit from "./Permit";
 import Search from "./Search";
-import Test from "./Test";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
@@ -40,8 +39,8 @@ function App() {
   }, []);
 
   return (
-    <React.Fragment>
-      <Grid padding="20px 100px">
+    <div className="App">
+      <Grid padding="20px 80px">
         <Header></Header>
         <ConnectedRouter history={history}>
           <Route path="/" exact component={PostList} />
@@ -63,7 +62,7 @@ function App() {
           }}
         ></Button>
       </Permit>
-    </React.Fragment>
+    </div>
   );
 }
 

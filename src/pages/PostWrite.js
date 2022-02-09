@@ -85,30 +85,19 @@ const PostWrite = (props) => {
   }
   return (
     <React.Fragment>
-      <Grid padding="26px">
-        <Text size="36px" bold>
+      <Grid center>
+        <Text size="36px" bold margin="0 0 120px 0">
           {is_edit ? "게시글 수정" : "게시글 작성"}
         </Text>
+      </Grid>
+
+      <Grid is_flex width="auto">
         <Upload />
       </Grid>
-      <Grid>
-        <Grid padding="16px">
-          <Grid>
-            <Layout preview={preview} />
-          </Grid>
-          {/* <Text margine="0px" size="24px" bold>
-            미리보기
-          </Text> */}
-        </Grid>
-        {/* <Image
-          shape="rectangle"
-          src={
-            preview
-              ? preview
-              : "https://usagi-post.com/wp-content/uploads/2020/05/no-image-found-360x250-1.png"
-          }
-        /> */}
+      <Grid padding="16px">
+        <Layout preview={preview} />
       </Grid>
+
       <Grid padding="16px">
         <Input
           value={contents}

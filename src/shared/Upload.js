@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button } from "../elements";
+import { Button, Text, Grid } from "../elements";
 import { storage } from "./firebase";
 import { actionCreators as imageActions } from "../redux/modules/image";
 import styled from "styled-components";
@@ -40,14 +40,23 @@ const Upload = (props) => {
     <React.Fragment>
       {/* disabled 속성 주면 파일선택 버튼 안눌린다. */}
       {/* <InputLabel for="input-file">파일 찾기</InputLabel> */}
-      <input
-        type="file"
-        id="input-file"
-        // style={{ display: "none" }}
-        onChange={selectFile}
-        ref={fileInput}
-        disabled={is_uploading}
-      />
+      <UploadBox>
+        <label htmlFor="input-file">
+          <Grid bg="#7bc688" padding="1px" margin="5px" center>
+            <Text margin="5px" bold size="20px" color="white">
+              이미지 선택하기
+            </Text>
+          </Grid>
+        </label>
+        <input
+          type="file"
+          id="input-file"
+          // style={{ display: "none" }}
+          onChange={selectFile}
+          ref={fileInput}
+          disabled={is_uploading}
+        />
+      </UploadBox>
       {/* <Button _onClick={uploadFB}>업로드하기</Button>  */}
     </React.Fragment>
   );
@@ -60,5 +69,26 @@ const Upload = (props) => {
 //   color: white;
 //   cursor: pointer;
 // `;
+
+const UploadBox = styled.label`
+  margin: 0 8px 0 8px;
+  label {
+    display: inline-block;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+  input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+`;
 
 export default Upload;

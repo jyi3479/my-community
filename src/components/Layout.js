@@ -27,33 +27,39 @@ const Layout = (props) => {
   return (
     <Grid>
       <Grid>
-        <label htmlFor="right"> 이미지 오른쪽 텍스트 왼쪽 </label>
-        <input
-          type="checkbox"
-          id="right"
-          onChange={(e) => {
-            changeHandler(e.currentTarget.checked, "right");
-          }}
-          checked={checkedInputs === "right" ? true : false}
-        ></input>
-
-        <Grid is_flex>
-          <div style={{ marginRight: "auto" }}>텍스트</div>
-          <Grid align="right" width="auto">
+        <Grid center>
+          <label htmlFor="right"> 이미지 오른쪽 텍스트 왼쪽 </label>
+          <input
+            type="checkbox"
+            id="right"
+            onChange={(e) => {
+              changeHandler(e.currentTarget.checked, "right");
+            }}
+            checked={checkedInputs === "right" ? true : false}
+          ></input>
+        </Grid>
+        <Grid
+          is_flex
+          border="1px solid #d7d7d7"
+          padding="15px"
+          margin="15px 0px"
+        >
+          <Grid center>텍스트</Grid>
+          <Grid align="right" width="auto" padding="16px">
             <Image
               shape="square"
-              size={500}
+              size="40vw"
               src={
                 preview
                   ? preview
-                  : "https://usagi-post.com/wp-content/uploads/2020/05/no-image-found-360x250-1.png"
+                  : "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg"
               }
             />
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid>
+      <Grid center>
         <label htmlFor="left"> 이미지 왼쪽 텍스트 오른쪽 </label>
         <input
           type="checkbox"
@@ -65,24 +71,29 @@ const Layout = (props) => {
           checked={checkedInputs === "left" ? true : false}
         ></input>
 
-        <Grid is_flex>
-          <Grid align="left" width="auto">
+        <Grid
+          is_flex
+          border="1px solid #d7d7d7"
+          padding="15px"
+          margin="15px 0px"
+        >
+          <Grid align="left" width="auto" padding="16px">
             <Image
               shape="square"
-              size={500}
+              size="40vw"
               src={
                 preview
                   ? preview
-                  : "https://usagi-post.com/wp-content/uploads/2020/05/no-image-found-360x250-1.png"
+                  : "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg"
               }
             />
           </Grid>
-          <div style={{ marginLeft: "auto" }}>텍스트</div>
+          <Grid center>텍스트</Grid>
         </Grid>
       </Grid>
 
-      <Grid>
-        <label htmlFor="center"> 이미지 하단 텍스트 상단 </label>
+      <Grid center>
+        <label htmlFor="center"> 이미지 상단 텍스트 하단 </label>
         <input
           type="checkbox"
           id="center"
@@ -92,18 +103,18 @@ const Layout = (props) => {
           checked={checkedInputs === "center" ? true : false}
         ></input>
 
-        <Grid>
-          <div>텍스트</div>
-          <Grid>
+        <Grid border="1px solid #d7d7d7" padding="15px" margin="15px 0px">
+          <Grid padding="16px" width="60vw" margin="auto">
             <Image
               shape="rectangle"
               src={
                 preview
                   ? preview
-                  : "https://usagi-post.com/wp-content/uploads/2020/05/no-image-found-360x250-1.png"
+                  : "https://images.assetsdelivery.com/compings_v2/yehorlisnyi/yehorlisnyi2104/yehorlisnyi210400016.jpg"
               }
             />
           </Grid>
+          <Grid>텍스트</Grid>
         </Grid>
       </Grid>
     </Grid>

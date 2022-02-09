@@ -1,13 +1,21 @@
 import React from "react";
 import { Grid, Image, Text } from "../elements";
 import { history } from "../redux/configureStore";
+import { useSelector } from "react-redux";
 
 const Card = (props) => {
   const { image_url, user_name, post_id } = props;
+  const post_list = useSelector((state) => state.post.list);
+  let is_delete = post_list.filter((l) => l.id === post_id).length;
+  console.log(is_delete);
   return (
     <Grid
       _onClick={() => {
-        history.push(`/post/${post_id}`);
+        if (is_delete === 0) {
+          window.alert("포스트가 존재하지 않아요! ;_;");
+        } else {
+          history.push(`/post/${post_id}`);
+        }
       }}
       is_flex
       padding="16px"
@@ -15,7 +23,7 @@ const Card = (props) => {
       bg="white"
     >
       <Grid width="auto" margin="0px 8px 0px 0px">
-        <Image size={85} shape="square" src={image_url} />
+        <Image size="10vw" shape="square" src={image_url} />
       </Grid>
       <Grid>
         <Text>
