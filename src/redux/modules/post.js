@@ -1,11 +1,14 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { firestore, storage } from "../../shared/firebase";
+import { firestore, realtime, storage } from "../../shared/firebase";
 import "moment";
 import moment from "moment";
 
+import firebase from "firebase/app";
+
 import { actionCreators as imageActions } from "./image";
 import { CenterFocusStrong } from "@material-ui/icons";
+import { add } from "lodash";
 
 // actions
 const SET_POST = "SET_POST";
@@ -50,9 +53,49 @@ const initialPost = {
   comment_cnt: 0,
   insert_dt: moment().format("YYYY-MM-DD kk:mm:ss"),
   align: "center",
+  like_cnt: 0,
 };
 
 // middleware
+
+const likeFB = (post_id, user_id, is_like) => {
+  return function (dispatch, getState, { history }) {
+    const postDB = firestore.collection("myPost");
+    const post = getState().post.list.find((l) => l.id === post_id);
+    const likeDB = realtime.ref(`like/${post_id}/${user_id}`);
+    console.log(is_like);
+    if (!is_like) {
+      // 좋아요 누른 경우 (false 이었다가 누른거니까)
+      const increment = firebase.firestore.FieldValue.increment(1);
+      postDB
+        .doc(post_id)
+        .update({ like_cnt: increment })
+        .then((_post) => {
+          if (post) {
+            dispatch(
+              editPost(post_id, { like_cnt: parseInt(post.like_cnt) + 1 })
+            );
+            likeDB.update({ is_click: true });
+          }
+        });
+    } else {
+      // 좋아요 취소
+      const increment = firebase.firestore.FieldValue.increment(-1);
+      postDB
+        .doc(post_id)
+        .update({ like_cnt: increment })
+        .then((_post) => {
+          if (post) {
+            dispatch(
+              editPost(post_id, { like_cnt: parseInt(post.like_cnt) - 1 })
+            );
+            likeDB.update({ is_click: false });
+          }
+        });
+    }
+  };
+};
+
 const addPostFB = (contents = "") => {
   return function (dispatch, getState, { history }) {
     const postDB = firestore.collection("myPost");
@@ -380,6 +423,7 @@ const actionCreators = {
   deletePost,
   deletePostFB,
   getOnePostFB,
+  likeFB,
 };
 
 export { actionCreators };

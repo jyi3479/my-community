@@ -3,7 +3,7 @@ import React from "react";
 // import Image from "../elements/Image";
 // import Text from "../elements/Text";
 // 한번에 import 하기 (elements 폴더에 index.js 파일에서 모두 import 했기 때문)
-import { Button, Grid, Image, PostLayout, Text } from "../elements";
+import { Button, Grid, Image, Like, PostLayout, Text } from "../elements";
 import { Layout } from ".";
 import { history } from "../redux/configureStore";
 import { useDispatch } from "react-redux";
@@ -65,10 +65,11 @@ const Post = (props) => {
             />
           </Grid>
         </Grid>
-        <Grid padding="16px">
+        <Grid padding="16px" is_flex>
           <Text margin="0px" bold>
-            댓글 {props.comment_cnt}개
+            댓글 {props.comment_cnt}개 좋아요 {props.like_cnt}개
           </Text>
+          <Like post_id={props.id} />
         </Grid>
       </Grid>
     </React.Fragment>
